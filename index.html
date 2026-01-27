@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hugo Titone - SDR @ Agicap</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--accent:#FF6B35;--dark:#1a1a1a;--light:#f8fafc;--white:#fff;--gray:#6b7280;--success:#10b981;--orange:#FF6B35}
+body{font-family:'Inter',sans-serif;background:var(--light);color:var(--dark);line-height:1.7;overflow-x:hidden}
+.container{max-width:1400px;margin:0 auto;padding:0 32px}
+
+/* Header Sticky */
+.header-sticky{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);z-index:1000;padding:1rem 0;box-shadow:0 2px 20px rgba(0,0,0,0.08);transform:translateY(-100%);transition:transform 0.3s ease}
+.header-sticky.visible{transform:translateY(0)}
+.header-content{display:flex;justify-content:space-between;align-items:center;gap:2rem}
+.header-name{font-weight:800;font-size:1.25rem;color:var(--dark)}
+.header-contacts{display:flex;gap:1rem;flex-wrap:wrap}
+.header-contacts a{padding:0.5rem 1rem;background:var(--accent);color:white;text-decoration:none;border-radius:50px;font-size:0.9rem;font-weight:600;transition:all 0.3s}
+.header-contacts a:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,107,53,0.3)}
+
+/* Hero */
+.hero{min-height:100vh;background:linear-gradient(135deg,#1a1a1a,#2d1810);display:flex;align-items:center;justify-content:center;text-align:center;position:relative;padding:2rem 0}
+.hero-title{font-size:clamp(3rem,7vw,5rem);font-weight:800;color:#fff;margin-bottom:2rem;line-height:1.1}
+.highlight{background:linear-gradient(135deg,#FF6B35,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-subtitle{font-size:1.5rem;color:#e5e4e2;margin-bottom:1rem;font-weight:600}
+.hero-pitch{font-size:1.125rem;color:#e5e4e2;max-width:700px;margin:0 auto 3rem;opacity:0.9;line-height:1.8}
+
+/* Stats Section */
+.stats-section{padding:6rem 0;background:var(--white);margin-top:-3rem;position:relative;z-index:2}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2.5rem;max-width:1000px;margin:0 auto}
+.stat-card{background:linear-gradient(135deg,#FF6B35,#FFA500);padding:3rem 2rem;border-radius:24px;text-align:center;color:#fff;box-shadow:0 20px 60px rgba(255,107,53,0.25);transition:all 0.4s ease;animation:fadeInUp 0.6s ease forwards;opacity:0}
+.stat-card:nth-child(1){animation-delay:0.1s}
+.stat-card:nth-child(2){animation-delay:0.2s}
+.stat-card:nth-child(3){animation-delay:0.3s}
+.stat-card:hover{transform:translateY(-10px) scale(1.02)}
+.stat-number{font-size:3.5rem;font-weight:800}
+@keyframes fadeInUp{to{opacity:1;transform:translateY(0)}from{transform:translateY(20px)}}
+
+/* Sections */
+.section{padding:8rem 0}
+.section-title{font-size:clamp(2.5rem,6vw,4rem);font-weight:800;text-align:center;margin-bottom:4rem}
+.section-subtitle{font-size:2rem;font-weight:600;text-align:center;margin-bottom:3rem}
+
+/* Why Me Section */
+.why-me-section{background:linear-gradient(135deg,#f8fafc,#e5e7eb);padding:6rem 0}
+.why-me-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2.5rem;max-width:1200px;margin:0 auto}
+.why-me-card{background:white;padding:3rem;border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,0.08);position:relative;overflow:hidden;transition:all 0.4s;display:flex;flex-direction:column}
+.why-me-card::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(135deg,#FF6B35,#FFA500)}
+.why-me-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.12)}
+.why-me-icon{font-size:3rem;margin-bottom:1.5rem}
+.why-me-title{font-size:1.5rem;font-weight:700;margin-bottom:1rem;color:var(--accent)}
+.why-me-description{font-size:1.125rem;line-height:1.8;color:var(--gray)}
+.why-me-highlight{background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,165,0,0.1));padding:1rem;border-radius:12px;margin-top:auto;font-weight:600;color:var(--accent)}
+
+/* Quick Wins Section */
+.quick-wins-section{background:var(--white);padding:6rem 0}
+.quick-wins-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:3rem}
+.quick-win-card{background:linear-gradient(135deg,#f8fafc,#fff);padding:2.5rem;border-radius:20px;border-left:4px solid var(--accent);transition:all 0.3s;position:relative}
+.quick-win-card:hover{transform:translateX(8px);box-shadow:0 12px 32px rgba(0,0,0,0.1)}
+.quick-win-number{position:absolute;top:1rem;right:1rem;width:40px;height:40px;background:linear-gradient(135deg,#FF6B35,#FFA500);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:1.25rem}
+.quick-win-title{font-size:1.25rem;font-weight:700;margin-bottom:0.75rem;color:var(--dark);padding-right:50px}
+.quick-win-description{font-size:1rem;color:var(--gray);line-height:1.7}
+
+/* Challenge Section */
+.challenge-section{background:linear-gradient(135deg,#1a1a1a,#2d1810);color:white;padding:8rem 0}
+.challenge-header{text-align:center;margin-bottom:4rem}
+.challenge-badge{display:inline-block;background:rgba(255,107,53,0.2);border:2px solid var(--accent);color:var(--accent);padding:0.75rem 2rem;border-radius:50px;font-weight:700;margin-bottom:2rem;font-size:1.125rem}
+.challenge-title{color:white;font-size:2.5rem;font-weight:800;margin-bottom:1rem}
+.challenge-subtitle{color:#e5e4e2;font-size:1.25rem;opacity:0.9;max-width:700px;margin:0 auto}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;max-width:1000px;margin:3rem auto}
+.kpi-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,107,53,0.2);padding:2.5rem 2rem;border-radius:20px;text-align:center;transition:all 0.4s}
+.kpi-card:hover{background:rgba(255,255,255,0.1);transform:translateY(-8px)}
+.kpi-number{font-size:3rem;font-weight:800;background:linear-gradient(135deg,#FF6B35,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:0.5rem}
+.kpi-label{font-size:1rem;color:#e5e4e2;font-weight:600;margin-bottom:0.25rem}
+.kpi-detail{font-size:0.875rem;color:#9ca3af}
+
+/* Tools Section */
+.tools-section{background:var(--white);padding:8rem 0}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin:2rem 0}
+.tool-badge{background:var(--accent);color:var(--white);padding:0.75rem 1.5rem;border-radius:50px;text-align:center;font-weight:600;font-size:0.95rem;transition:all 0.3s;box-shadow:0 4px 12px rgba(255,107,53,0.2)}
+.tool-badge:hover{transform:scale(1.05);box-shadow:0 6px 20px rgba(255,107,53,0.3)}
+
+/* Methodology */
+.methodology-card{background:var(--light);padding:3rem;border-radius:24px;margin:3rem 0;border-left:6px solid var(--accent)}
+.methodology-title{font-size:1.75rem;font-weight:700;margin-bottom:2rem;color:var(--accent)}
+.methodology-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:2rem}
+.step-card{background:var(--white);padding:2rem;border-radius:16px;box-shadow:0 4px 16px rgba(0,0,0,0.08);transition:all 0.3s}
+.step-card:hover{transform:translateY(-5px)}
+.step-number{font-size:2rem;font-weight:800;color:var(--accent);margin-bottom:1rem}
+.step-title{font-weight:700;margin-bottom:0.5rem}
+.step-description{color:var(--gray);font-size:0.95rem}
+
+/* Business Understanding */
+.business-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2.5rem;margin-bottom:5rem}
+.problem-card{background:#fff;padding:3rem;border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,0.08);border-top:6px solid var(--accent);transition:all 0.4s ease}
+.problem-card:hover{transform:translateY(-8px)}
+.problem-number{width:50px;height:50px;background:linear-gradient(135deg,#FF6B35,#FFA500);border-radius:16px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-bottom:1.5rem;font-size:1.25rem}
+.problem-card p{font-size:1.125rem;line-height:1.7;color:var(--gray)}
+.solution-card{background:#fff;padding:4rem;border-radius:32px;box-shadow:0 8px 32px rgba(0,0,0,0.08);margin:3rem auto;max-width:900px;border-top:8px solid var(--accent)}
+.solution-card p{font-size:1.25rem;line-height:1.8;color:var(--gray);text-align:center}
+
+/* Why Agicap */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:3rem;margin-top:4rem}
+.why-card{background:#fff;padding:3rem;border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,0.08);border-left:6px solid var(--accent);transition:all 0.4s}
+.why-card:hover{transform:translateX(10px)}
+.why-number{font-size:3rem;font-weight:800;background:linear-gradient(135deg,#FF6B35,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem}
+.why-title{font-size:1.5rem;font-weight:700;margin-bottom:1rem}
+.why-description{font-size:1.125rem;line-height:1.7;color:var(--gray)}
+
+/* Plan 30-60-90 */
+.plan-timeline{max-width:1000px;margin:0 auto}
+.plan-item{display:grid;grid-template-columns:200px 1fr;gap:4rem;margin-bottom:5rem}
+.plan-period-number{font-size:4rem;font-weight:800;background:linear-gradient(135deg,#FF6B35,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.plan-period-label{font-size:1.25rem;font-weight:600;color:var(--gray)}
+.plan-content{background:#fff;padding:3rem;border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,0.08);border-left:6px solid var(--accent);transition:all 0.4s}
+.plan-content:hover{transform:translateY(-5px)}
+.plan-title{font-size:1.75rem;font-weight:700;margin-bottom:1.5rem}
+.plan-list{list-style:none}
+.plan-list li{padding-left:2rem;margin-bottom:1rem;position:relative;font-size:1.125rem;color:var(--gray)}
+.plan-list li::before{content:'✓';position:absolute;left:0;color:var(--accent);font-weight:700}
+
+/* Profile Section */
+.profile-section{background:#0c0c0c;color:#fff;padding:10rem 0}
+.profile-grid{display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:center;margin-bottom:6rem}
+.profile-image{width:350px;height:350px;border-radius:50%;margin:0 auto;box-shadow:0 30px 60px rgba(255,107,53,0.3);border:6px solid rgba(255,107,53,0.2);overflow:hidden;transition:all 0.4s}
+.profile-image:hover{transform:scale(1.05);border-color:var(--accent)}
+.profile-image img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%)}
+.profile-image:hover img{filter:grayscale(0%)}
+.story-content h3{font-size:2.5rem;margin-bottom:2rem;background:linear-gradient(135deg,#FF6B35,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.story-timeline{position:relative;padding-left:3rem}
+.story-timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#FF6B35,#FFA500)}
+.story-item{position:relative;margin-bottom:3rem;padding-left:2rem;transition:all 0.4s}
+.story-item:hover{transform:translateX(10px)}
+.story-item::before{content:'';position:absolute;left:-1.25rem;top:0.5rem;width:1.25rem;height:1.25rem;background:var(--accent);border-radius:50%;box-shadow:0 0 0 6px #0c0c0c,0 0 20px var(--accent)}
+.story-period{font-weight:700;color:var(--accent);margin-bottom:0.75rem;font-size:1.125rem}
+.story-description{color:#e5e4e2;line-height:1.8;font-size:1.125rem}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2.5rem;margin-top:4rem}
+.skill-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,107,53,0.2);padding:3rem;border-radius:24px;text-align:center;transition:all 0.4s}
+.skill-card:hover{transform:translateY(-8px);background:rgba(255,255,255,0.1);border-color:var(--accent)}
+.skill-icon{font-size:2.5rem;margin-bottom:1.5rem}
+.skill-title{font-weight:700;margin-bottom:1rem;font-size:1.25rem;color:var(--accent)}
+.skill-description{color:#e5e4e2;opacity:0.8}
+
+/* CTA Section */
+.cta-section{background:linear-gradient(135deg,#1a1a1a,#2d1810);padding:10rem 0;text-align:center;color:#fff;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0 C300,80 600,80 900,20 L900,120 L0,120 Z" fill="rgba(255,107,53,0.1)"/></svg>');background-size:cover;opacity:0.5}
+.cta-content{position:relative;z-index:1}
+.cta-badge{display:inline-block;background:rgba(16,185,129,0.2);border:2px solid var(--success);color:var(--success);padding:0.75rem 2rem;border-radius:50px;font-weight:700;margin-bottom:2rem;font-size:1rem}
+.cta-title{font-size:clamp(2.5rem,5vw,3.5rem);font-weight:800;margin-bottom:2rem}
+.cta-subtitle{font-size:1.375rem;opacity:0.9;margin-bottom:3rem;max-width:700px;margin-left:auto;margin-right:auto}
+.cta-buttons{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:3rem}
+.btn{padding:1.25rem 2.5rem;border-radius:60px;font-weight:600;text-decoration:none;transition:all 0.4s;border:2px solid transparent;display:inline-flex;align-items:center;gap:0.75rem;font-size:1.125rem;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,#FF6B35,#FFA500);color:#fff}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 15px 35px rgba(255,107,53,0.4)}
+.btn-secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,0.3)}
+.btn-secondary:hover{background:rgba(255,255,255,0.1);border-color:#fff}
+
+/* Location Badge */
+.location-badge{display:inline-block;background:rgba(255,107,53,0.1);border:2px solid var(--accent);color:var(--accent);padding:0.75rem 2rem;border-radius:50px;font-weight:700;margin-bottom:2rem;font-size:1rem}
+
+/* Responsive */
+@media (max-width:768px){
+.container{padding:0 20px}
+.profile-grid,.plan-item{grid-template-columns:1fr;gap:2rem;text-align:center}
+.profile-image{width:280px;height:280px}
+.business-grid,.why-me-grid,.quick-wins-grid{grid-template-columns:1fr}
+.btn{width:100%;max-width:320px;justify-content:center}
+.tools-grid{grid-template-columns:repeat(2,1fr)}
+.header-name{font-size:1rem}
+.header-contacts{gap:0.5rem}
+.header-contacts a{padding:0.5rem 0.75rem;font-size:0.8rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Header Sticky -->
+<header class="header-sticky" id="stickyHeader">
+<div class="container">
+<div class="header-content">
+<div class="header-name">Hugo Titone → SDR @ Agicap</div>
+<div class="header-contacts">
+<a href="mailto:hugo.titone@gmail.com">✉️ Email</a>
+<a href="tel:+33778203627">📞 Appeler</a>
+</div>
+</div>
+</div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+<div class="container">
+<div class="hero-content">
+<h1 class="hero-title">
+Candidature de <span class="highlight">Hugo</span><br>au poste de <span class="highlight">SDR</span><br>chez <span class="highlight">Agicap</span>
+</h1>
+<p class="hero-subtitle">Volume × Pugnacité = votre futur TOP PERFORMER</p>
+<div class="location-badge">📍 Basé à Lyon - Disponible immédiatement</div>
+</div>
+</div>
+</section>
+
+<!-- Video Section -->
+<section style="padding:6rem 0;background:linear-gradient(135deg,#f8fafc,#e5e7eb)">
+<div class="container">
+<div style="text-align:center;margin-bottom:3rem">
+<h3 style="font-size:1.75rem;font-weight:700;margin-bottom:0.5rem;color:var(--dark)">
+🎥 Ma présentation vidéo
+</h3>
+<p style="color:var(--gray);font-size:1.125rem">
+Hey Agicap, j'ai un message pour vous !
+</p>
+</div>
+
+<div style="max-width:900px;margin:0 auto">
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:24px;box-shadow:0 25px 50px rgba(0,0,0,0.15);border:6px solid white">
+<iframe 
+  src="https://www.youtube-nocookie.com/embed/JkZpYTjY6YU?rel=0&modestbranding=1" 
+  frameborder="0" 
+  webkitallowfullscreen 
+  mozallowfullscreen 
+  allowfullscreen 
+  style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:18px">
+</iframe>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+<div class="container">
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-number">+175%</div><div>Croissance CA<br>(350k€→950k€)</div></div>
+<div class="stat-card"><div class="stat-number">+180</div><div>Nouveaux clients<br>conquis</div></div>
+<div class="stat-card"><div class="stat-number">500</div><div>Cold calls réalisés<br>en 15 jours</div></div>
+</div>
+</div>
+</section>
+
+<!-- Why Me Section -->
+<section class="why-me-section">
+<div class="container">
+<h2 class="section-title">Pourquoi choisir mon profil ?</h2>
+<div class="why-me-grid">
+<div class="why-me-card">
+<div class="why-me-icon">🔥</div>
+<div class="why-me-title">Mentalité de chasseur</div>
+<div class="why-me-description">
+5 ans à gérer 180 comptes B2B avec +175% de croissance. Je n'ai pas peur du volume : 50-80 calls/jour, c'est mon terrain de jeu. Résilient, pugnace et drivé par le résultat.
+</div>
+<div class="why-me-highlight">
+500 cold calls en 15 jours • 22,6% contact rate
+</div>
+</div>
+
+<div class="why-me-card">
+<div class="why-me-icon">⚡</div>
+<div class="why-me-title">Stack SDR maîtrisé</div>
+<div class="why-me-description">
+Formation intensive Akimbo Academy : LemList, Sales Navigator, PhantomBuster, qualification BANT/MEDDIC, séquences multicanales. Opérationnel dès J1.
+</div>
+<div class="why-me-highlight">
+Formation SDR B2B SaaS certifiée
+</div>
+</div>
+
+<div class="why-me-card">
+<div class="why-me-icon">💰</div>
+<div class="why-me-title">Compréhension business</div>
+<div class="why-me-description">
+Capable de me mettre à la place des dirigeants et d'anticiper leurs besoins. Je parle le langage des CEO/DAF et je comprends leurs enjeux de trésorerie.
+</div>
+<div class="why-me-highlight">
+Orientation résultat • Esprit compétiteur
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Challenge Section -->
+<section class="challenge-section">
+<div class="container">
+<div class="challenge-header">
+<div class="challenge-badge">🏆 Challenge Akimbo Academy - 15 jours</div>
+<h2 class="challenge-title">Mon baptême du feu en prospection intensive</h2>
+<p class="challenge-subtitle">
+Sprint de prospection pour ArcaScience : 500 cold calls, qualification rigoureuse, génération d'opportunités.
+</p>
+</div>
+
+<div class="kpi-grid">
+<div class="kpi-card">
+<div class="kpi-number">500</div>
+<div class="kpi-label">Cold Calls</div>
+<div class="kpi-detail">en 15 jours via AirCall</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-number">113</div>
+<div class="kpi-label">Conversations</div>
+<div class="kpi-detail">22,6% de contact</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-number">38</div>
+<div class="kpi-label">Intérêts générés</div>
+<div class="kpi-detail">Mail + rappels planifiés</div>
+</div>
+<div class="kpi-card">
+<div class="kpi-number">13</div>
+<div class="kpi-label">RDV obtenus</div>
+<div class="kpi-detail">2,6% conversion</div>
+</div>
+</div>
+
+<div style="margin-top:3rem;text-align:center">
+<p style="font-size:1.125rem;color:#e5e4e2;max-width:800px;margin:0 auto;line-height:1.8">
+✅ Fichiers de prospection (Sales Navigator + PhantomBuster)<br>
+✅ Séquences multicanales personnalisées (LemList)<br>
+✅ Qualification rigoureuse (BANT/MEDDIC)
+</p>
+</div>
+</div>
+</section>
+
+<!-- Mon engagement Section -->
+<section class="quick-wins-section">
+<div class="container">
+<h2 class="section-title">💼 Mon engagement dès le départ</h2>
+<p style="text-align:center;font-size:1.25rem;color:var(--gray);max-width:700px;margin:0 auto 3rem">
+Comment je compte contribuer à votre équipe SDR
+</p>
+<div class="quick-wins-grid">
+<div class="quick-win-card">
+<div class="quick-win-number">1</div>
+<div class="quick-win-title">Immersion produit</div>
+<div class="quick-win-description">
+Comprendre Agicap à fond : fonctionnalités, cas d'usage, bénéfices pour les PME. Maîtriser le discours de valeur avant de décrocher le téléphone.
+</div>
+</div>
+
+<div class="quick-win-card">
+<div class="quick-win-number">2</div>
+<div class="quick-win-title">Volume dès le départ</div>
+<div class="quick-win-description">
+Atteindre rapidement l'objectif de 50-80 calls/jour. Le téléphone est mon meilleur ami, je n'ai aucune appréhension à décrocher.
+</div>
+</div>
+
+<div class="quick-win-card">
+<div class="quick-win-number">3</div>
+<div class="quick-win-title">Qualification rigoureuse</div>
+<div class="quick-win-description">
+Identifier les vrais pain points trésorerie des CEO/DAF et générer des RDV qualifiés pour les Account Executives.
+</div>
+</div>
+
+<div class="quick-win-card">
+<div class="quick-win-number">4</div>
+<div class="quick-win-title">Mindset performance</div>
+<div class="quick-win-description">
+Mentalité de compétiteur : dépasser mes objectifs, partager mes techniques et contribuer à l'amélioration continue de l'équipe.
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Tools Section -->
+<section class="tools-section">
+<div class="container">
+<h2 class="section-title">💪 Ce que j'apporte à Agicap</h2>
+
+<div>
+<h3 class="section-subtitle" style="font-size:1.75rem;text-align:left;margin-bottom:2rem">1. Méthodologies commerciales maîtrisées</h3>
+
+<div style="margin-bottom:3rem">
+<h4 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;color:var(--dark)">📋 Frameworks de qualification</h4>
+<p style="font-size:1.125rem;color:var(--gray);margin-bottom:1rem">Pour identifier et qualifier les meilleures opportunités :</p>
+<div class="tools-grid">
+<div class="tool-badge">BANT</div>
+<div class="tool-badge">MEDDIC</div>
+<div class="tool-badge">MEDDPICC</div>
+<div class="tool-badge">BEBEDC</div>
+</div>
+</div>
+
+<div>
+<h4 style="font-size:1.25rem;font-weight:700;margin-bottom:1rem;color:var(--dark)">🎯 Techniques de vente</h4>
+<p style="font-size:1.125rem;color:var(--gray);margin-bottom:1rem">Pour découvrir les besoins et convaincre :</p>
+<div class="tools-grid">
+<div class="tool-badge">SPIN Selling</div>
+<div class="tool-badge">ACRAC</div>
+<div class="tool-badge">Challenger Sale</div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:4rem">
+<h3 class="section-subtitle" style="font-size:1.75rem;text-align:left;margin-bottom:2rem">2. Stack technologique maîtrisé</h3>
+<p style="font-size:1.125rem;color:var(--gray);margin-bottom:2rem">Opérationnel sur l'ensemble des outils de prospection modernes :</p>
+<div class="tools-grid">
+<div class="tool-badge">LemList</div>
+<div class="tool-badge">Sales Navigator</div>
+<div class="tool-badge">Parabola</div>
+<div class="tool-badge">PhantomBuster</div>
+<div class="tool-badge">FullEnrich</div>
+<div class="tool-badge">Lusha</div>
+<div class="tool-badge">Kaspr</div>
+<div class="tool-badge">AirCall</div>
+<div class="tool-badge">Salesforce</div>
+<div class="tool-badge">HubSpot</div>
+</div>
+</div>
+
+<div style="margin-top:5rem">
+<h2 class="section-title">🚀 Mon approche SDR</h2>
+<div class="methodology-card">
+<div class="methodology-title">Philosophie</div>
+<p style="font-size:1.125rem;color:var(--gray);line-height:1.8">Une prospection à haut volume mais intelligente. Je ne suis pas là pour spammer : chaque appel est préparé, chaque approche est personnalisée, chaque objection est une opportunité de creuser.</p>
+</div>
+
+<h3 class="section-subtitle" style="margin-top:3rem">Ma méthodologie en 4 étapes</h3>
+<div class="methodology-steps">
+<div class="step-card">
+<div class="step-number">1</div>
+<div class="step-title">Recherche & Ciblage</div>
+<div class="step-description">Identification des PME (CEO, DAF) via Sales Navigator. Focus sur les secteurs à fort besoin de pilotage trésorerie.</div>
+</div>
+<div class="step-card">
+<div class="step-number">2</div>
+<div class="step-title">Approche multicanale</div>
+<div class="step-description">Séquences combinant email, LinkedIn et téléphone. Mais le téléphone reste l'arme n°1 pour ouvrir les portes.</div>
+</div>
+<div class="step-card">
+<div class="step-number">3</div>
+<div class="step-title">Discovery intensive</div>
+<div class="step-description">Identifier le pain point principal : cash flow, visibilité trésorerie, gestion multi-entités, prévisionnel...</div>
+</div>
+<div class="step-card">
+<div class="step-number">4</div>
+<div class="step-title">Passation qualifiée</div>
+<div class="step-description">Transférer des RDV ultra-qualifiés aux AE avec contexte, enjeux et profil décisionnel complet.</div>
+</div>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- Business Understanding -->
+<section class="section" style="background:var(--white)">
+<div class="container">
+<h2 class="section-title">Ce que j'ai compris de votre business</h2>
+<h3 class="section-subtitle">Les problématiques que vous résolvez</h3>
+<div class="business-grid">
+<div class="problem-card">
+<div class="problem-number">1</div>
+<p><strong>Manque de visibilité :</strong> Les dirigeants de PME pilotent leur trésorerie avec Excel, sans vision claire de leur cash à court/moyen terme.</p>
+</div>
+<div class="problem-card">
+<div class="problem-number">2</div>
+<p><strong>Perte de temps :</strong> Les DAF passent des heures sur des tableaux de bord manuels alors qu'ils devraient se concentrer sur la stratégie.</p>
+</div>
+<div class="problem-card">
+<div class="problem-number">3</div>
+<p><strong>Décisions à l'aveugle :</strong> Sans prévisionnel fiable, difficile d'anticiper les tensions de trésorerie ou de prendre les bonnes décisions d'investissement.</p>
+</div>
+</div>
+
+<h3 class="section-subtitle">Votre solution</h3>
+<div class="solution-card">
+<p>Agicap automatise le pilotage de trésorerie pour les PME. Connexion bancaire, prévisionnel en temps réel, scénarios d'anticipation : vos clients gagnent du temps et prennent des décisions éclairées.</p>
+</div>
+</div>
+</section>
+
+<!-- Why Agicap -->
+<section class="section" style="background:var(--light)">
+<div class="container">
+<h2 class="section-title">Pourquoi Agicap ?</h2>
+<div class="why-grid">
+<div class="why-card">
+<div class="why-number">01</div>
+<div class="why-title">Hyper-croissance</div>
+<div class="why-description">
+Scale-up française en pleine expansion internationale, levées de fonds massives, ambition forte. C'est le moment idéal pour rejoindre l'aventure.
+</div>
+</div>
+
+<div class="why-card">
+<div class="why-number">02</div>
+<div class="why-title">Produit à forte valeur ajoutée</div>
+<div class="why-description">
+Vous résolvez un vrai problème pour les PME. Vendre un produit qui change vraiment le quotidien des dirigeants, c'est ce qui me motive.
+</div>
+</div>
+
+<div class="why-card">
+<div class="why-number">03</div>
+<div class="why-title">Culture Sales & Lyon</div>
+<div class="why-description">
+Basé à Gare de Vaise, esprit d'équipe, ambiance compétitive mais saine, évolution rapide. Une culture qui correspond à ma façon de travailler.
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Plan 30-60-90 -->
+<section class="section" style="background:var(--white)">
+<div class="container">
+<h2 class="section-title">Mon plan 30-60-90 jours</h2>
+<div class="plan-timeline">
+<div class="plan-item">
+<div><div class="plan-period-number">30</div><div class="plan-period-label">Premiers jours</div></div>
+<div class="plan-content">
+<div class="plan-title">🎯 Onboarding & Apprentissage</div>
+<ul class="plan-list">
+<li>Maîtriser le produit Agicap : fonctionnalités, cas d'usage, ROI</li>
+<li>Comprendre les personas (CEO, DAF de PME) et leurs pain points trésorerie</li>
+<li>M'approprier le pitch, les objections courantes et les success stories</li>
+<li>Prendre en main le CRM et les outils de prospection</li>
+<li>Observer les appels des top performers de l'équipe SDR</li>
+</ul>
+</div>
+</div>
+
+<div class="plan-item">
+<div><div class="plan-period-number">60</div><div class="plan-period-label">Jours</div></div>
+<div class="plan-content">
+<div class="plan-title">🚀 Montée en volume</div>
+<ul class="plan-list">
+<li>Atteindre l'objectif de 50-80 calls/jour de manière consistante</li>
+<li>Générer mes premiers RDV qualifiés pour les Account Executives</li>
+<li>Atteindre 50-70% de mon quota mensuel</li>
+<li>Affiner ma découverte des pain points trésorerie</li>
+<li>Optimiser mes scripts et mes séquences multicanales</li>
+</ul>
+</div>
+</div>
+
+<div class="plan-item">
+<div><div class="plan-period-number">90</div><div class="plan-period-label">Jours</div></div>
+<div class="plan-content">
+<div class="plan-title">💪 Performance optimale</div>
+<ul class="plan-list">
+<li>Atteindre et dépasser mon quota mensuel</li>
+<li>Devenir un des top performers de l'équipe SDR</li>
+<li>Partager mes techniques et contribuer à l'amélioration collective</li>
+<li>Remonter des feedbacks produit à partir du terrain</li>
+<li>Viser une évolution vers l'Account Executive</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Profile Section -->
+<section class="profile-section">
+<div class="container">
+<h2 class="section-title">Mon profil</h2>
+<div class="profile-grid">
+<div class="profile-image">
+<img src="https://i.imgur.com/8LjwEdo.png" alt="Hugo Titone">
+</div>
+<div class="story-content">
+<h3>Mon histoire</h3>
+<div class="story-timeline">
+<div class="story-item">
+<div class="story-period">2012-2014</div>
+<div class="story-description">BTS NRC puis Bachelor Marketing and Business. Apprentissage des fondamentaux de la vente B2B.</div>
+</div>
+<div class="story-item">
+<div class="story-period">2020-2025</div>
+<div class="story-description">Ingénieur Commercial AkzoNobel. 5 ans, 180 clients, +175% de croissance (350k€→950k€). Maîtrise des cycles de vente et de la négociation avec des décideurs.</div>
+</div>
+<div class="story-item">
+<div class="story-period">2025</div>
+<div class="story-description">Virage vers le SaaS. Certifications HubSpot, Cisco. Passion pour la tech et envie d'impact mesurable.</div>
+</div>
+<div class="story-item">
+<div class="story-period">Fin 2025</div>
+<div class="story-description">Formation Akimbo Academy SDR/BDR B2B SaaS : prospection intensive, 500 cold calls, qualification BANT/MEDDIC, stack tech maîtrisé.</div>
+</div>
+<div class="story-item">
+<div class="story-period">Aujourd'hui</div>
+<div class="story-description">Prêt à mettre mon expérience au service d'<strong>Agicap</strong> et à devenir votre prochain top performer SDR.</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="skills-grid">
+<div class="skill-card">
+<div class="skill-icon">🔥</div>
+<div class="skill-title">Mentalité Chasseur</div>
+<div class="skill-description">Résilient, pugnace, orienté résultat. Le téléphone est mon arme favorite.</div>
+</div>
+<div class="skill-card">
+<div class="skill-icon">📊</div>
+<div class="skill-title">Résultats Prouvés</div>
+<div class="skill-description">+175% CA, 500 cold calls en 15j, 22,6% contact rate</div>
+</div>
+<div class="skill-card">
+<div class="skill-icon">💪</div>
+<div class="skill-title">Stack SDR Complet</div>
+<div class="skill-description">LemList, Sales Navigator, PhantomBuster, qualification BANT/MEDDIC</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+<div class="container">
+<div class="cta-content">
+<div class="cta-badge">✅ Disponible immédiatement</div>
+<h2 class="cta-title">Prêt à démarrer ?</h2>
+<p class="cta-subtitle">Je suis convaincu que mon profil peut contribuer à l'hyper-croissance d'Agicap.<br>Réservez directement un créneau sur mon agenda ou contactez-moi !</p>
+<div class="cta-buttons">
+<a href="https://calendly.com/htitone/30min" target="_blank" class="btn btn-primary">📅 Réserver un créneau (30 min)</a>
+<a href="mailto:hugo.titone@gmail.com?subject=Candidature%20SDR%20-%20Agicap" class="btn btn-secondary">✉️ M'envoyer un email</a>
+<a href="tel:+33778203627" class="btn btn-secondary">📞 07-78-20-36-27</a>
+<a href="https://www.linkedin.com/in/hugo-titone" target="_blank" class="btn btn-secondary">💼 Mon LinkedIn</a>
+<a href="https://drive.google.com/file/d/1g0K8N5ctHkDb-K20TEPDXL9fUbtPvH6K/view?usp=sharing" target="_blank" class="btn btn-secondary">📄 Télécharger mon CV</a>
+</div>
+</div>
+</div>
+</section>
+
+<script>
+// Sticky header on scroll
+window.addEventListener('scroll', function() {
+  const header = document.getElementById('stickyHeader');
+  if (window.scrollY > 100) {
+    header.classList.add('visible');
+  } else {
+    header.classList.remove('visible');
+  }
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
